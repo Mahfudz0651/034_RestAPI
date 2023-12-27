@@ -36,12 +36,22 @@ fun KontakApp(
                 .padding(it)
         ) {
             HomeScreen(kontakUIState = homeViewModel.kontakUIState,
-                retryAction = homeViewModel::getKontak
+                retryAction = HomeViewModel::getKontak
             )
         }
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopAppBarKontak(
+    title: String,
+    canNavigateBack: Boolean,
+    modifier: Modifier = Modifier,
+    scrollBehavior: TopAppBarScrollBehavior? = null,
+    navigateUp: () -> Unit = {}
+){
 
+}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBar(scrollBehavior: TopAppBarScrollBehavior, modifier: Modifier = Modifier) {
