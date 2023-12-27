@@ -41,4 +41,16 @@ class HomeViewModel (private  val kontakRepository: KontakRepository) : ViewMode
             }
         }
     }
+    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+    fun deletekontak(id: Int) {
+        viewModelScope.launch {
+            try {
+                kontakRepository.deleteKontak(id)
+            } catch (e: IOException) {
+                KontakUIState.Error
+            } catch (e: HttpException) {
+                KontakUIState.Error
+            }
+        }
+    }
 }
