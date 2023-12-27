@@ -21,6 +21,7 @@ sealed class KontakUIState {
     object Loading : KontakUIState()
 }
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 class HomeViewModel (private  val kontakRepository: KontakRepository) : ViewModel() {
     var kontakUIState: KontakUIState by mutableStateOf(KontakUIState.Loading)
         private set

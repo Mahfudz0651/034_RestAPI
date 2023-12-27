@@ -1,5 +1,7 @@
 package com.example.consumeapi.ui
 
+import android.os.Build
+import androidx.annotation.RequiresExtension
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -12,7 +14,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -24,6 +25,7 @@ import com.example.consumeapi.ui.home.screen.HomeScreen
 import com.example.consumeapi.ui.home.viewmodel.HomeViewModel
 import com.example.consumerestapi.R
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun KontakApp(
@@ -39,7 +41,8 @@ fun KontakApp(
                 .fillMaxSize()
                 .padding(it)
         ) {
-            HomeScreen(kontakUIState = homeViewModel.kontakUIState,
+            HomeScreen(
+                kontakUIState = homeViewModel.kontakUIState,
                 retryAction = HomeViewModel::getKontak
             )
         }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,11 +14,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,12 +30,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.consumeapi.model.Kontak
+import com.example.consumeapi.ui.home.viewmodel.HomeViewModel
 import com.example.consumeapi.ui.home.viewmodel.KontakUIState
 import com.example.consumerestapi.R
+import kotlin.reflect.KFunction1
 
 @Composable
 fun HomeScreen(
-    kontakUIState: KontakUIState, retryAction: () -> Unit, modifier: Modifier = Modifier
+    kontakUIState: KontakUIState, retryAction: KFunction1<HomeViewModel, Unit>, modifier: Modifier = Modifier
 ){
     when (kontakUIState){
         is KontakUIState.Loading -> OnLoading(modifier = modifier.fillMaxSize())
@@ -45,7 +50,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun OnError(retryAction: () -> Unit, modifier: Modifier = Modifier){
+fun OnError(retryAction: KFunction1<HomeViewModel, Unit>, modifier: Modifier = Modifier){
     Column (
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
@@ -59,6 +64,10 @@ fun OnError(retryAction: () -> Unit, modifier: Modifier = Modifier){
             Text(stringResource(id = R.string.retry))
         }
     }
+}
+
+fun Button(onClick: KFunction1<HomeViewModel, Unit>, content: @Composable() (RowScope.() -> Unit)) {
+    TODO("Not yet implemented")
 }
 
 @Composable
@@ -88,6 +97,7 @@ fun KontakLayout(
 @Composable
 fun KontakCard(
     kontak: Kontak,
+    onDeleteClick: (Kontak) -> Unit = {},
     modifier: Modifier = Modifier
 ){
     Card(
@@ -120,6 +130,12 @@ fun KontakCard(
                 text = kontak.alamat,
                 style = MaterialTheme.typography.titleMedium,
             )
+            Spacer(Modifier.weight(1f))
+            IconButton(onClick = { onDeleteClick(kontak)}) {
+                Icon(imageVector = Icons.Default.Delete,
+                    contentDescription = null,
+                    )
+            }
         }
     }
 }
