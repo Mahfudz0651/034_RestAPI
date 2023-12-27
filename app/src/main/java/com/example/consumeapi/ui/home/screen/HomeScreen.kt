@@ -1,5 +1,7 @@
 package com.example.consumeapi.ui.home.screen
 
+import android.os.Build
+import androidx.annotation.RequiresExtension
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +20,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -44,13 +45,13 @@ import com.example.consumeapi.ui.TopAppBarKontak
 import com.example.consumeapi.ui.home.viewmodel.HomeViewModel
 import com.example.consumeapi.ui.home.viewmodel.KontakUIState
 import com.example.consumerestapi.R
-import kotlin.reflect.KFunction1
 
 object DestinasiHome : DestinasiNavigasi {
     override val route = "home"
     override val titleRes = "Kontak"
 }
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -81,15 +82,29 @@ fun HomeScreen(
                         contentDescription = "Add Kontak"
                     )
             }
-        }
-    ) {
+        },
+    ) { innerPadding ->
+
+        HomeStatus(
+            kontakUIState = viewModel.kontakUIState,
+            retryAction = {
+                          viewModel.getKontak()
+            },
+            modifier = Modifier.padding(innerPadding),
+
+            onDetailClick = onDetailClick,
+            onDeleteClick = {
+                viewModel.deletekontak(it.id)
+                viewModel.getKontak()
+            }
+        )
     }
 }
 
 @Composable
 fun HomeStatus(
     kontakUIState: KontakUIState,
-    retryAction: KFunction1<HomeViewModel, Unit>,
+    retryAction: () -> Unit,
     modifier: Modifier = Modifier,
     onDeleteClick: (Kontak) -> Unit = {},
     onDetailClick: (Int) -> Unit
@@ -110,7 +125,7 @@ fun HomeStatus(
 }
 
 @Composable
-fun OnError(retryAction: KFunction1<HomeViewModel, Unit>, modifier: Modifier = Modifier){
+fun OnError(retryAction: () -> Unit, modifier: Modifier = Modifier){
     Column (
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
@@ -126,7 +141,7 @@ fun OnError(retryAction: KFunction1<HomeViewModel, Unit>, modifier: Modifier = M
     }
 }
 
-fun Button(onClick: KFunction1<HomeViewModel, Unit>, content: @Composable() (RowScope.() -> Unit)) {
+fun Button(onClick: () -> Unit, content: @Composable() (RowScope.() -> Unit)) {
     TODO("Not yet implemented")
 }
 
