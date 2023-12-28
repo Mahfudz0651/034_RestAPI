@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.consumeapi.navigation.PengelolaHalaman
 import com.example.consumeapi.ui.home.screen.HomeScreen
 import com.example.consumeapi.ui.home.viewmodel.HomeViewModel
 import com.example.consumerestapi.R
@@ -29,22 +30,17 @@ import com.example.consumerestapi.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun KontakApp(
-    homeViewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = { TopAppBar(scrollBehavior = scrollBehavior)}
     ) {
         Surface(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
         ) {
-            HomeScreen(
-                kontakUIState = homeViewModel.kontakUIState,
-                retryAction = HomeViewModel::getKontak
-            )
+            PengelolaHalaman()
         }
     }
 }
